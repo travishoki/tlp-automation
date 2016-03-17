@@ -1,0 +1,101 @@
+/* Container
+------------------------------------------*/
+.container {
+  position: fixed;
+  left: 320px;
+  top: 0;
+  bottom: 0;
+  right: 20px;
+  padding: 0;
+  overflow: scroll;
+}
+/* Images
+------------------------------------------*/
+.images ul {
+  padding: 0;
+  max-width: 300px;
+}
+.images ul li {
+  list-style: none;
+  margin-bottom: 10px;
+  cursor: pointer;
+  border: solid 3px white;
+}
+.images ul li.edited img {
+  border-right: solid 3px green;
+}
+.images ul li.active {
+  border: solid 3px red;
+}
+.images ul li.active img {
+  border: none;
+}
+.images ul li img {
+  width: 100%;
+}
+/* Sidebar
+------------------------------------------*/
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  height: 100%;
+  width: 300px;
+  background: #ccc;
+}
+.sidebar .sidebar-inner {
+  padding: 20px;
+}
+.sidebar .sidebar-inner h1 {
+  color: white;
+  text-align: center;
+  font-size: 20px;
+  margin: 10px 0 20px 0;
+}
+.sidebar .sidebar-inner img.watermark {
+  display: block;
+  margin: 0 auto;
+  border-bottom: solid 1px white;
+}
+.sidebar .sidebar-inner .btn {
+  display: block;
+  margin: 0 auto;
+}
+.sidebar .sidebar-inner .radio-btns {
+  margin: 10px 0 10px 70px;
+  overflow: hidden;
+}
+.sidebar .sidebar-inner .radio-btns .radio-group {
+  float: left;
+}
+.sidebar .sidebar-inner .radio-btns .radio-group input#color-white {
+  margin-right: 20px;
+}
+/* Position Picker
+------------------------------------------*/
+.position-picker {
+  margin: 20px auto;
+  display: block;
+  width: 90px;
+  height: 90px;
+}
+.position-picker ul {
+  padding: 0;
+  overflow: hidden;
+}
+.position-picker ul li {
+  list-style: none;
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+  background: gray;
+  float: left;
+  cursor: pointer;
+}
+.position-picker ul li:nth-child(3n+1) {
+  clear: both;
+}
+.position-picker ul li.active {
+  background: blue;
+}
