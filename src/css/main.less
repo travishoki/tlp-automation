@@ -15,25 +15,42 @@
 .images {
 	ul {
 		padding: 0;
-		max-width: 300px;
+		max-width: 400px;
 		li {
 			list-style: none;
 			margin-bottom: 10px;
 			cursor: pointer;
 			border: solid 3px white;
+			position: relative;
+			.ui-wrapper {
+				display: none;
+			}
+			img {
+				&.watermark {
+					position: absolute;
+					height: auto!important;
+				}
+				&.image {
+					opacity: 0;
+				}
+			}
 			&.edited {
 				img {
-					border-right: solid 3px green;
+					&.image {
+						border-right: solid 3px green;
+					}
 				}
 			}
 			&.active {
 				border: solid 3px red;
-				img {
-					border: none;
+				.ui-wrapper {
+					display: block;
 				}
-			}
-			img {
-				width: 100%;
+				img {
+					&.image {
+						border: none;
+					}
+				}
 			}
 		}
 	}
@@ -49,6 +66,12 @@
 	height: 100%;
 	width: 300px;
 	background: #ccc;
+	h1, h2, h3, h4, h5, p {
+		color: grey;
+	}
+	.prompt {
+		text-align: center;
+	}
 	.sidebar-inner {
 		padding: 20px;
 		h1 {
@@ -57,10 +80,12 @@
 			font-size: 20px;
 			margin: 10px 0 20px 0;
 		}
+		hr {
+			border-top: 1px solid grey;
+		}
 		img.watermark {
 			display: block;
 			margin: 0 auto;
-			border-bottom: solid 1px white;
 		}
 		.btn {
 			display: block;
@@ -76,7 +101,22 @@
 				}
 			}
 		}
+		.controls {
+			display: none;
+		}
 	}	
+}
+
+/* Key
+------------------------------------------*/
+.key {
+	padding: 0 10px;
+	h5 {
+		margin: 10px 0 0 0;
+	}
+	p {
+		margin: 0;
+	}
 }
 
 /* Position Picker

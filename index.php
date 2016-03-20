@@ -22,11 +22,7 @@ foreach($imagesOriginal as $img) {
 	}
 	array_push($images, $obj);
 }//foreach
-
-$images = [];
-
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,46 +34,64 @@ $images = [];
 	<!-- Custom CSS -->
 	<link rel="stylesheet" href="style.css">
 
+	<!-- jQuery UI CSS -->
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
 </head>
 <body>
-
 	<div class="sidebar">
 		<div class="sidebar-inner">
 			<img src="images/watermark-w.png" class="watermark" width="220">
 
-			<h1>TLP Automation</h1>
-	
-			<div class="radio-btns">
-				<div class="radio-group">
-					<label for="color-white">White</label>
-					<input type="radio" id="color-white" name="color" value="w" checked/>
+			<h1>Watermarker</h1>
+
+			<hr>
+
+			<div class="controls">
+				<div class="radio-btns">
+					<div class="radio-group">
+						<label for="color-white">White</label>
+						<input type="radio" id="color-white" name="color" value="w" checked/>
+					</div>
+					<div class="radio-group">
+						<label for="color-black">Black</label>
+						<input type="radio" id="color-black" name="color" value="b"/>
+					</div>
+				</div><!--radio-btns-->
+
+				<div class="position-picker">
+					<ul>
+						<li></li>
+						<li></li>
+						<li></li>
+
+						<li></li>
+						<li></li>
+						<li></li>
+
+						<li></li>
+						<li></li>
+						<li></li>
+					</ul>
 				</div>
-				<div class="radio-group">
-					<label for="color-black">Black</label>
-					<input type="radio" id="color-black" name="color" value="b"/>
-				</div>
-			</div><!--radio-btns-->
 
+				<button id="run_system" class="btn btn-primary btn-lg">Run</button>
 
-			<div class="position-picker">
-				<ul>
-					<li></li>
-					<li></li>
-					<li></li>
+				<hr>
 
-					<li></li>
-					<li></li>
-					<li></li>
+				<div class="key">
+					<h5>Nudge</h5>
+					<p>Shift + Arrow Keys</p>
 
-					<li></li>
-					<li></li>
-					<li></li>
-				</ul>
-			</div>
+					<h5>Nudge More</h5>
+					<p>Shift + Command + Arrow Keys</p>
+				</div><!--key-->
+			</div><!--controls-->
 
-			<button id="run_system" class="btn btn-primary btn-lg">Run</button>
+			<p class="prompt">Select an image</p>
 
 		</div><!--sidebar-inner-->
+
 	</div><!--sidebar-->
 
 	<div class="container">
@@ -86,13 +100,15 @@ $images = [];
 				<?php foreach($images as $img):?>
 					<?php
 					$classes = '';
-
 					if($img['edited']){
 						$classes = 'edited';
 					}
 					?>
-					<li class="<?php echo $classes;?>">				
-						<img src="<?php echo $img['url'];?>">
+					<li class="<?php echo $classes;?>">			
+
+						<img src="images/watermark-w.png" class="watermark">
+
+						<img src="<?php echo $img['url'];?>" class="image">
 					</li>
 				<?php endforeach;?>
 			</ul>
@@ -101,8 +117,16 @@ $images = [];
 		<p class="message"></p>
 	</div><!--container-->
 
+	<!-- jQuery JS -->
 	<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+
+	<!-- jQuery UI JS -->
+	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+	<!-- Custom JS -->
 	<script src="script.js"></script>
+
 </body>
 </html>
 
