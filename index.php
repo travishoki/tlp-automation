@@ -43,7 +43,9 @@ foreach($imagesOriginal as $img) {
 		<div class="sidebar-inner">
 			<img src="images/watermark-w.png" class="watermark" width="220">
 
-			<h1>TLP Automation</h1>
+			<h1>Watermarker</h1>
+
+			<hr>
 
 			<div class="controls">
 				<div class="radio-btns">
@@ -74,9 +76,21 @@ foreach($imagesOriginal as $img) {
 				</div>
 
 				<button id="run_system" class="btn btn-primary btn-lg">Run</button>
+
+				<hr>
+
+				<div class="key">
+					<h5>Nudge by 1px:</h5>
+					<p>Command + Arrow Keys</p>
+
+					<h5>Nudge by 10px:</h5>
+					<p>Command + Shift + Arrow Keys</p>
+				</div><!--key-->
+
 			</div><!--controls-->
 
 		</div><!--sidebar-inner-->
+
 	</div><!--sidebar-->
 
 	<div class="container">

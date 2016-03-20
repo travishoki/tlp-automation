@@ -17,6 +17,7 @@ $(document).ready(function(){
 	//Run
 	$('#run_system').click(run);
 
+	//Change Color
 	$('input[name=color]').change(changeColor);
 
 	//Key Down
@@ -25,6 +26,11 @@ $(document).ready(function(){
 	//Key Up
 	$("body").keyup(keyUp);
 
+	init();
+
+});
+
+function init(){
 
 	//Watermark Manipulation
     $('.images ul li img.watermark')
@@ -64,7 +70,7 @@ $(document).ready(function(){
 
 		});				
 	});
-});
+}//init
 
 function keyDown(e){
 	var directionalKey = false;
@@ -139,9 +145,11 @@ function keyDown(e){
 
 function keyUp(e){
     if (e.keyCode == '16'){
+    	//Shift
     	holdingShift = false;
 	}
     if (e.keyCode == '91'){
+    	//Command
     	holdingCommand = false;
 	}
 }//keyUp

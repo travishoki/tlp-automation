@@ -64,10 +64,12 @@
   font-size: 20px;
   margin: 10px 0 20px 0;
 }
+.sidebar .sidebar-inner hr {
+  border-top: 1px solid grey;
+}
 .sidebar .sidebar-inner img.watermark {
   display: block;
   margin: 0 auto;
-  border-bottom: solid 1px white;
 }
 .sidebar .sidebar-inner .btn {
   display: block;
@@ -85,6 +87,17 @@
 }
 .sidebar .sidebar-inner .controls {
   display: none;
+}
+/* Key
+------------------------------------------*/
+.key {
+  padding: 0 10px;
+}
+.key h5 {
+  margin: 10px 0 0 0;
+}
+.key p {
+  margin: 0;
 }
 /* Position Picker
 ------------------------------------------*/
