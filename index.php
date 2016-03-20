@@ -86,8 +86,9 @@ foreach($imagesOriginal as $img) {
 					<h5>Nudge by 10px:</h5>
 					<p>Command + Shift + Arrow Keys</p>
 				</div><!--key-->
-
 			</div><!--controls-->
+
+			<p class="prompt">Select an image</p>
 
 		</div><!--sidebar-inner-->
 

@@ -55,6 +55,17 @@
   width: 300px;
   background: #ccc;
 }
+.sidebar h1,
+.sidebar h2,
+.sidebar h3,
+.sidebar h4,
+.sidebar h5,
+.sidebar p {
+  color: grey;
+}
+.sidebar .prompt {
+  text-align: center;
+}
 .sidebar .sidebar-inner {
   padding: 20px;
 }

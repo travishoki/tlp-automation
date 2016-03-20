@@ -302,6 +302,10 @@ function selectImage(){
 		controlsShow();
 		$('.images ul li.active').each(function(){
 			$(this).removeClass('active');
+			if($(this).hasClass('edited')){
+				var img = $(this).children('img');
+				changeToDistSrc(img);
+			}
 		});
 		$(this).addClass('active');
 
@@ -390,12 +394,12 @@ function changeToOrigSrc(img){
 }//changeToOrigSrc
 
 function controlsHide(){
-
+	$('.prompt').show();
 	$('.controls').hide();
 }//controlsHide
 
 function controlsShow(){
-
+	$('.prompt').hide();
 	$('.controls').show();
 }//controlsShow
 
