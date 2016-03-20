@@ -15,25 +15,42 @@
 .images {
 	ul {
 		padding: 0;
-		max-width: 300px;
+		max-width: 400px;
 		li {
 			list-style: none;
 			margin-bottom: 10px;
 			cursor: pointer;
 			border: solid 3px white;
+			position: relative;
+			.ui-wrapper {
+				display: none;
+			}
+			img {
+				&.watermark {
+					position: absolute;
+					height: auto!important;
+				}
+				&.image {
+					opacity: 0;
+				}
+			}
 			&.edited {
 				img {
-					border-right: solid 3px green;
+					&.image {
+						border-right: solid 3px green;
+					}
 				}
 			}
 			&.active {
 				border: solid 3px red;
-				img {
-					border: none;
+				.ui-wrapper {
+					display: block;
 				}
-			}
-			img {
-				width: 100%;
+				img {
+					&.image {
+						border: none;
+					}
+				}
 			}
 		}
 	}

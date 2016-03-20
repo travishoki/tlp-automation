@@ -22,11 +22,7 @@ foreach($imagesOriginal as $img) {
 	}
 	array_push($images, $obj);
 }//foreach
-
-$images = [];
-
 ?>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,15 +34,17 @@ $images = [];
 	<!-- Custom CSS -->
 	<link rel="stylesheet" href="style.css">
 
+	<!-- jQuery UI CSS -->
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
 </head>
 <body>
-
 	<div class="sidebar">
 		<div class="sidebar-inner">
 			<img src="images/watermark-w.png" class="watermark" width="220">
 
 			<h1>TLP Automation</h1>
-	
+
 			<div class="radio-btns">
 				<div class="radio-group">
 					<label for="color-white">White</label>
@@ -58,6 +56,7 @@ $images = [];
 				</div>
 			</div><!--radio-btns-->
 
+			<div id="slider"></div>
 
 			<div class="position-picker">
 				<ul>
@@ -86,13 +85,15 @@ $images = [];
 				<?php foreach($images as $img):?>
 					<?php
 					$classes = '';
-
 					if($img['edited']){
 						$classes = 'edited';
 					}
 					?>
-					<li class="<?php echo $classes;?>">				
-						<img src="<?php echo $img['url'];?>">
+					<li class="<?php echo $classes;?>">			
+
+						<img src="images/watermark-w.png" class="watermark">
+
+						<img src="<?php echo $img['url'];?>" class="image">
 					</li>
 				<?php endforeach;?>
 			</ul>
@@ -101,8 +102,16 @@ $images = [];
 		<p class="message"></p>
 	</div><!--container-->
 
+	<!-- jQuery JS -->
 	<script src="//code.jquery.com/jquery-1.12.0.min.js"></script>
+
+	<!-- jQuery UI JS -->
+	<script src="//code.jquery.com/jquery-1.10.2.js"></script>
+	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+	<!-- Custom JS -->
 	<script src="script.js"></script>
+
 </body>
 </html>
 

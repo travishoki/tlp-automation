@@ -13,25 +13,36 @@
 ------------------------------------------*/
 .images ul {
   padding: 0;
-  max-width: 300px;
+  max-width: 400px;
 }
 .images ul li {
   list-style: none;
   margin-bottom: 10px;
   cursor: pointer;
   border: solid 3px white;
+  position: relative;
 }
-.images ul li.edited img {
+.images ul li .ui-wrapper {
+  display: none;
+}
+.images ul li img.watermark {
+  position: absolute;
+  height: auto!important;
+}
+.images ul li img.image {
+  opacity: 0;
+}
+.images ul li.edited img.image {
   border-right: solid 3px green;
 }
 .images ul li.active {
   border: solid 3px red;
 }
-.images ul li.active img {
-  border: none;
+.images ul li.active .ui-wrapper {
+  display: block;
 }
-.images ul li img {
-  width: 100%;
+.images ul li.active img.image {
+  border: none;
 }
 /* Sidebar
 ------------------------------------------*/

@@ -1,5 +1,3 @@
-var posTop = 0;
-var posLeft = 0;
 var img_name = '';
 
 var watermark_w = 540;
@@ -7,16 +5,72 @@ var watermark_h = 182;
 
 $(document).ready(function(){
 
-	//Run
-	$('#run_system').click(run);
-
 	//Select Position
 	$('.position-picker ul li').click(selectPosition);
 
 	//Select Images
 	$('.images ul li').click(selectImage);
 
+	//Run
+	$('#run_system').click(run);
+
+	//Watermark Manipulation
+    $('.images ul li img.watermark')
+		.resizable({
+			aspectRatio: 270 / 91
+		})
+		.parent()
+		.draggable({ containment: "parent" });
+
+	imagesLoaded(function(){
+		var images = jQuery('.images ul li img.image');
+		images.each(function(){
+			var w = $(this).width();
+			var h = $(this).height();
+
+			var ratio = 400 / w;
+
+			$(this)
+				.attr({
+					'ratio': ratio
+				})
+				.css({
+					opacity: 1,
+					width: '100%'
+				});
+
+			$(this).parent('li').find('.ui-wrapper, .watermark')
+				.css({
+					'width': (watermark_w * ratio) + 'px',
+					'height': (watermark_h * ratio) + 'px'
+				});
+
+		});				
+	});
+
+
 });
+
+/* Images Loaded
+------------------------------------------*/
+function imagesLoaded(callback){
+	var images = jQuery('.images ul li img.image');
+	var imageCount = images.length;
+
+	images.each(function(){
+        if( this.complete ) {
+			imageCount--;
+			if(imageCount === 0){
+				callback();
+			}
+        }else{
+		    jQuery(this).one('load',function() {
+				imageCount--;
+			});
+		}
+	});
+}//imagesLoaded
+
 
 /* Select Position
 ------------------------------------------*/
@@ -39,6 +93,9 @@ function selectPosition (){
 
 	var perc_x = 0;
 	var perc_y = 0;
+
+	var posTop = 0;
+	var posLeft = 0;
 
 	switch(index + 1){
 		/* Row 1
@@ -89,7 +146,7 @@ function selectPosition (){
 		/* Column 3
 		---------------------*/
 		case 3: 
-		case 6: 
+		case 6:
 		case 9: 
 			posLeft = unit_w*5;
 			break;
@@ -98,78 +155,116 @@ function selectPosition (){
 	posTop -= (watermark_h/2);
 	posLeft -= (watermark_w/2);
 
+	/* Reposition Watermark
+	---------------------*/
+	$('.images ul li.active').each(function(){
+
+		var theRatio = $(this).find('img.image').attr('ratio');
+
+		$(this).find('.ui-wrapper')
+			.css({
+				'top': (posTop * theRatio) + 'px',
+				'left': ((posLeft * theRatio) - 5) + 'px'
+			});
+
+	});
 }//selectPosition
-
-
-function setPosByPerc(){
-	posLeft = (img_w * perc_x) - (watermark_w*perc_x);
-	posTop = (img_h * perc_y) - (watermark_h*perc_y);
-}//setPosByPerc
-
 
 /* Select Image
 ------------------------------------------*/
 function selectImage(){
-	// console.log('%c----- %s -----', 'font-size: 14px', 'select image');
-	$('.images ul li.active').each(function(){
+	var img = $(this).children('img');
+
+	if($(this).hasClass('active')){
 		$(this).removeClass('active');
-	});
 
-	$(this).addClass('active');
+		changeToDistSrc(img);
+	}else{
+		$('.images ul li.active').each(function(){
+			$(this).removeClass('active');
+		});
+		$(this).addClass('active');
 
-	var src = $(this).children('img').attr('src');
-	src = src.split('?')[0];//remove query parameters added for time
-	var a = src.split('/');
-	img_name = a[a.length-1];
-	// console.log('img_name: ' + img_name);
+		var src = $(this).children('img').attr('src');
+		src = src.split('?')[0];//remove query parameters added for time
+		var a = src.split('/');
+		img_name = a[a.length-1];
+		// console.log('img_name: ' + img_name);
+
+		changeToOrigSrc(img);
+	}
 }//selectImage
 
 /* Run
 ------------------------------------------*/
 function run() {
-	// console.log('%c----- %s -----', 'font-size: 14px', 'run');
+	console.log('%c----- %s -----', 'font-size: 14px', 'run');
 
-	var data = {
-		img_name: img_name,
-		margin_top: posTop,
-		margin_left: posLeft
-	};
+	$('.images ul li.active').each(function(){
+		var theRatio = $(this).find('img.image').attr('ratio');
 
-	var color = $('input[name=color]:checked').val();
-	console.log('color: ' + color);
-	if(color !== 'w'){
-		data.color = color;
-	}
+		//Top
+		var t = $(this).find('.ui-wrapper').css('top');
+		t = parseFloat(t);
+		t = t / theRatio;
+		t = Math.round(t);
 
-	console.log('---------------');
-	console.log('data');
-	console.dir(data);
+		//Left		
+		var l = $(this).find('.ui-wrapper').css('left');
+		l = parseFloat(l);
+		l += 5;
+		l = l / theRatio;
+		l = Math.round(l);
 
-    $.ajax({
-        url : 'run.php',
-        data: data
-    }).done(function(data) {
-        $('.message').html(data);
+		var data = {
+			img_name: img_name,
+			margin_top: t,
+			margin_left: l
+		};
 
-		$('.position-picker ul li.active').each(function(){
-			$(this).removeClass('active');
-		});
-		$('.images ul li.active').each(function(){
-			$(this)
-				.addClass('edited')
-				.removeClass('active');
-			var img = $(this).children('img');
-			var src = img.attr('src');
-			var d = new Date();
-			src += "?"+d.getTime();
-			src = src.split('src').join('dist');
-			img.attr("src", src);
-		});
+		var color = $('input[name=color]:checked').val();
+		if(color !== 'w'){
+			data.color = color;
+		}
 
-    });
+	    $.ajax({
+	        url : 'run.php',
+	        data: data
+	    }).done(function(data) {
+	        $('.message').html(data);
+
+			$('.position-picker ul li.active').each(function(){
+				$(this).removeClass('active');
+			});
+			$('.images ul li.active').each(function(){
+				$(this)
+					.addClass('edited')
+					.removeClass('active');
+
+				var img = $(this).children('img');
+				changeToDistSrc(img);
+			});
+	    });
+	});
+
 }//run
 
 
+function changeToDistSrc(img){
+	var src = img.attr('src');
+	var d = new Date();
+	src += "?"+d.getTime();
+	src = src.split('src').join('dist');
+	img.attr("src", src);
+}//changeToDistSrc
+
+function changeToOrigSrc(img){
+	var src = img.attr('src');
+	var d = new Date();
+	src += "?"+d.getTime();
+	src = src.split('dist').join('src');
+	img.attr("src", src);
+}//changeToOrigSrc
 
 
 
