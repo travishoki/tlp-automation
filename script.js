@@ -3,6 +3,9 @@ var img_name = '';
 var watermark_w = 540;
 var watermark_h = 182;
 
+var holdingShift = false;
+var holdingCommand = false;
+
 $(document).ready(function(){
 
 	//Select Position
@@ -15,6 +18,12 @@ $(document).ready(function(){
 	$('#run_system').click(run);
 
 	$('input[name=color]').change(changeColor);
+
+	//Key Down
+	$("body").keydown(keyDown);
+
+	//Key Up
+	$("body").keyup(keyUp);
 
 
 	//Watermark Manipulation
@@ -57,6 +66,86 @@ $(document).ready(function(){
 	});
 });
 
+function keyDown(e){
+	var directionalKey = false;
+	var change_x = 0;
+	var change_y = 0;
+
+    if (e.keyCode == '16'){
+    	holdingShift = true;
+	}
+    if (e.keyCode == '91'){
+    	holdingCommand = true;
+	}
+
+    if (e.keyCode == '38'){
+        // up arrow
+        change_y = -1;
+    }else if (e.keyCode == '40'){
+        // down arrow
+        change_y = 1;
+    }else if (e.keyCode == '37'){
+       // left arrow
+        change_x = -1;
+    }else if (e.keyCode == '39'){
+       // right arrow
+        change_x = 1;
+    }
+
+	if(holdingShift && (change_x !== 0 || change_y !== 0)){
+
+		var wrapper = $(this).find('.ui-wrapper');
+
+		$('.images ul li.active').each(function(){
+			var theRatio = $(this).find('img.image').attr('ratio');
+
+			if(change_x !== 0){
+				//Horizontal
+				var l = wrapper.css('left');
+				if(l === 'auto'){
+					l = 0;
+				}
+				l = parseFloat(l);
+
+				if(holdingCommand){
+					change_x *= 10;
+				}
+
+				var newX = l + (change_x * theRatio);
+				if(newX > 0){
+					wrapper.css('left', newX);
+				}
+			}
+			if(change_y !== 0){
+				//Vertical
+				var t = wrapper.css('top');
+				if(t === 'auto'){
+					t = 0;
+				}
+				t = parseFloat(t);
+
+				if(holdingCommand){
+					change_y *= 10;
+				}
+
+				var newY = t + (change_y * theRatio);
+				if(newY > 0){
+					wrapper.css('top', newY);
+				}
+			}
+		});
+	}
+}//keyDown
+
+function keyUp(e){
+    if (e.keyCode == '16'){
+    	holdingShift = false;
+	}
+    if (e.keyCode == '91'){
+    	holdingCommand = false;
+	}
+}//keyUp
+
 function changeColor(){
 	var color = $('input[name=color]:checked').val();
 	var src = 'images/watermark-'+color+'.png';
@@ -64,6 +153,7 @@ function changeColor(){
 }//changeColor
 
 function dragStart(){
+
 	unselectPosSelector();
 }//dragStart
 
@@ -196,7 +286,9 @@ function selectImage(){
 		if($('.images ul li.active').length < 1){
 			controlsHide();
 		}
-		changeToDistSrc(img);
+		if($(this).closest('li').hasClass('edited')){
+			changeToDistSrc(img);
+		}
 	}else{
 		//Select Image
 		controlsShow();
@@ -223,6 +315,9 @@ function run() {
 
 		//Top
 		var t = $(this).find('.ui-wrapper').css('top');
+		if(t === 'auto'){
+			t = 0;
+		}
 		t = parseFloat(t);
 		t = t / theRatio;
 		t = Math.round(t);
@@ -287,10 +382,12 @@ function changeToOrigSrc(img){
 }//changeToOrigSrc
 
 function controlsHide(){
+
 	$('.controls').hide();
 }//controlsHide
 
 function controlsShow(){
+
 	$('.controls').show();
 }//controlsShow
 
