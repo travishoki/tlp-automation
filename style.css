@@ -83,6 +83,9 @@
 .sidebar .sidebar-inner .radio-btns .radio-group input#color-white {
   margin-right: 20px;
 }
+.sidebar .sidebar-inner .controls {
+  display: none;
+}
 /* Position Picker
 ------------------------------------------*/
 .position-picker {

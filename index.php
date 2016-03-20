@@ -45,36 +45,36 @@ foreach($imagesOriginal as $img) {
 
 			<h1>TLP Automation</h1>
 
-			<div class="radio-btns">
-				<div class="radio-group">
-					<label for="color-white">White</label>
-					<input type="radio" id="color-white" name="color" value="w" checked/>
+			<div class="controls">
+				<div class="radio-btns">
+					<div class="radio-group">
+						<label for="color-white">White</label>
+						<input type="radio" id="color-white" name="color" value="w" checked/>
+					</div>
+					<div class="radio-group">
+						<label for="color-black">Black</label>
+						<input type="radio" id="color-black" name="color" value="b"/>
+					</div>
+				</div><!--radio-btns-->
+
+				<div class="position-picker">
+					<ul>
+						<li></li>
+						<li></li>
+						<li></li>
+
+						<li></li>
+						<li></li>
+						<li></li>
+
+						<li></li>
+						<li></li>
+						<li></li>
+					</ul>
 				</div>
-				<div class="radio-group">
-					<label for="color-black">Black</label>
-					<input type="radio" id="color-black" name="color" value="b"/>
-				</div>
-			</div><!--radio-btns-->
 
-			<div id="slider"></div>
-
-			<div class="position-picker">
-				<ul>
-					<li></li>
-					<li></li>
-					<li></li>
-
-					<li></li>
-					<li></li>
-					<li></li>
-
-					<li></li>
-					<li></li>
-					<li></li>
-				</ul>
-			</div>
-
-			<button id="run_system" class="btn btn-primary btn-lg">Run</button>
+				<button id="run_system" class="btn btn-primary btn-lg">Run</button>
+			</div><!--controls-->
 
 		</div><!--sidebar-inner-->
 	</div><!--sidebar-->

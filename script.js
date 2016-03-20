@@ -14,16 +14,24 @@ $(document).ready(function(){
 	//Run
 	$('#run_system').click(run);
 
+	$('input[name=color]').change(changeColor);
+
+
 	//Watermark Manipulation
     $('.images ul li img.watermark')
 		.resizable({
 			aspectRatio: 270 / 91
 		})
 		.parent()
-		.draggable({ containment: "parent" });
+		.draggable({ 
+			containment: "parent",
+			start: function() {
+				dragStart();
+			}
+		});
 
 	imagesLoaded(function(){
-		var images = jQuery('.images ul li img.image');
+		var images = $('.images ul li img.image');
 		images.each(function(){
 			var w = $(this).width();
 			var h = $(this).height();
@@ -47,9 +55,17 @@ $(document).ready(function(){
 
 		});				
 	});
-
-
 });
+
+function changeColor(){
+	var color = $('input[name=color]:checked').val();
+	var src = 'images/watermark-'+color+'.png';
+	$('.images ul li img.watermark').attr('src', src);
+}//changeColor
+
+function dragStart(){
+	unselectPosSelector();
+}//dragStart
 
 /* Images Loaded
 ------------------------------------------*/
@@ -70,7 +86,6 @@ function imagesLoaded(callback){
 		}
 	});
 }//imagesLoaded
-
 
 /* Select Position
 ------------------------------------------*/
@@ -176,10 +191,15 @@ function selectImage(){
 	var img = $(this).children('img');
 
 	if($(this).hasClass('active')){
+		//Deselect Image
 		$(this).removeClass('active');
-
+		if($('.images ul li.active').length < 1){
+			controlsHide();
+		}
 		changeToDistSrc(img);
 	}else{
+		//Select Image
+		controlsShow();
 		$('.images ul li.active').each(function(){
 			$(this).removeClass('active');
 		});
@@ -198,8 +218,6 @@ function selectImage(){
 /* Run
 ------------------------------------------*/
 function run() {
-	console.log('%c----- %s -----', 'font-size: 14px', 'run');
-
 	$('.images ul li.active').each(function(){
 		var theRatio = $(this).find('img.image').attr('ratio');
 
@@ -232,10 +250,8 @@ function run() {
 	        data: data
 	    }).done(function(data) {
 	        $('.message').html(data);
-
-			$('.position-picker ul li.active').each(function(){
-				$(this).removeClass('active');
-			});
+			unselectPosSelector();
+			controlsHide();
 			$('.images ul li.active').each(function(){
 				$(this)
 					.addClass('edited')
@@ -246,9 +262,13 @@ function run() {
 			});
 	    });
 	});
-
 }//run
 
+function unselectPosSelector(){
+	$('.position-picker ul li.active').each(function(){
+		$(this).removeClass('active');
+	});
+}//unselectPosSelector
 
 function changeToDistSrc(img){
 	var src = img.attr('src');
@@ -266,11 +286,13 @@ function changeToOrigSrc(img){
 	img.attr("src", src);
 }//changeToOrigSrc
 
+function controlsHide(){
+	$('.controls').hide();
+}//controlsHide
 
-
-
-
-
+function controlsShow(){
+	$('.controls').show();
+}//controlsShow
 
 
 
