@@ -27,7 +27,6 @@ $(document).ready(function(){
 	$("body").keyup(keyUp);
 
 	init();
-
 });
 
 function init(){
@@ -55,6 +54,8 @@ function init(){
 
 			$(this)
 				.attr({
+					'orig_w': w,
+					'orig_h': h,
 					'ratio': ratio
 				})
 				.css({
@@ -102,6 +103,9 @@ function keyDown(e){
 
 		var wrapper = $(this).find('.ui-wrapper');
 
+		var nudgetSpeed = 10;
+		var nudgetFastSpeed = 30;
+
 		$('.images ul li.active').each(function(){
 			var theRatio = $(this).find('img.image').attr('ratio');
 
@@ -114,7 +118,9 @@ function keyDown(e){
 				l = parseFloat(l);
 
 				if(holdingCommand){
-					change_x *= 10;
+					change_x *= nudgetFastSpeed;
+				}else{
+					change_x *= nudgetSpeed;
 				}
 
 				var newX = l + (change_x * theRatio);
@@ -187,7 +193,7 @@ function imagesLoaded(callback){
 
 /* Select Position
 ------------------------------------------*/
-function selectPosition (){
+function selectPosition(){
 	// console.log('%c----- %s -----', 'font-size: 14px', 'select position');
 
 	$('.position-picker ul li.active').each(function(){
@@ -198,86 +204,82 @@ function selectPosition (){
 
 	var index = $(this).index();
 
-	var img_w = 2048;
-	var img_h = 1376;
 
-	var unit_h = img_h/6;
-	var unit_w = img_w/6;
-
-	var perc_x = 0;
-	var perc_y = 0;
-
-	var posTop = 0;
-	var posLeft = 0;
-
-	switch(index + 1){
-		/* Row 1
-		---------------------*/
-		case 1: 
-		case 2: 
-		case 3: 
-			posTop = unit_h;
-			perc_y = 0;
-			perc_y = 1/6;
-			break;
-
-		/* Row 2
-		---------------------*/
-		case 4: 
-		case 5: 
-		case 6: 
-			posTop = unit_h*3;
-			perc_y = 0.5;
-			break;
-
-		/* Row 3
-		---------------------*/
-		case 7: 
-		case 8: 
-		case 9: 
-			posTop = unit_h*5;
-			perc_y = 1;
-			perc_y = 5/6;
-			break;
-	}//switch
-
-	switch(index + 1){
-		/* Column 1
-		---------------------*/
-		case 1: 
-		case 4: 
-		case 7: 
-			posLeft = unit_w;
-			break;
-		/* Column 2
-		---------------------*/
-		case 2: 
-		case 5: 
-		case 8: 
-			posLeft = unit_w*3;
-			break;
-		/* Column 3
-		---------------------*/
-		case 3: 
-		case 6:
-		case 9: 
-			posLeft = unit_w*5;
-			break;
-	}//switch
-
-	posTop -= (watermark_h/2);
-	posLeft -= (watermark_w/2);
-
-	/* Reposition Watermark
-	---------------------*/
 	$('.images ul li.active').each(function(){
-
 		var theRatio = $(this).find('img.image').attr('ratio');
+
+		var origImage = $(this).children('img.image');
+
+		var img_w = origImage.attr('orig_w');
+		var img_h = origImage.attr('orig_h');
+
+		var landscape = (img_h < img_w) ? true : false;
+
+		var unit_h = img_h/6;
+		var unit_w =  landscape ? img_w/6 : img_w/4;
+
+		var posTop = 0;
+		var posLeft = 0;
+
+		//Rows
+		switch(index + 1){
+			/* Row 1
+			---------------------*/
+			case 1: 
+			case 2: 
+			case 3: 
+				posTop = unit_h;
+				break;
+
+			/* Row 2
+			---------------------*/
+			case 4: 
+			case 5: 
+			case 6: 
+				posTop = unit_h*3;
+				break;
+
+			/* Row 3
+			---------------------*/
+			case 7: 
+			case 8: 
+			case 9: 
+				posTop = unit_h*5;
+				break;
+		}//switch
+
+		//Columns
+		switch(index + 1){
+			/* Column 1
+			---------------------*/
+			case 1: 
+			case 4: 
+			case 7: 
+				posLeft = unit_w;
+				break;
+			/* Column 2
+			---------------------*/
+			case 2: 
+			case 5: 
+			case 8: 
+				posLeft = landscape ? unit_w*3 : unit_w*2;
+				break;
+			/* Column 3
+			---------------------*/
+			case 3: 
+			case 6:
+			case 9: 
+				posLeft = landscape ? unit_w*5 : unit_w*3;
+				break;
+		}//switch
+
+		posTop -= (watermark_h / 2);
+		posLeft -= (watermark_w / 2);
 
 		$(this).find('.ui-wrapper')
 			.css({
-				'top': (posTop * theRatio) + 'px',
-				'left': ((posLeft * theRatio) - 5) + 'px'
+				'top': (posTop * theRatio),
+				'left': ((posLeft * theRatio) - 5)
 			});
 
 	});
@@ -287,6 +289,8 @@ function selectPosition (){
 ------------------------------------------*/
 function selectImage(){
 	var img = $(this).children('img');
+
+	unselectPosSelector();
 
 	if($(this).hasClass('active')){
 		//Deselect Image

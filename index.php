@@ -80,11 +80,11 @@ foreach($imagesOriginal as $img) {
 				<hr>
 
 				<div class="key">
-					<h5>Nudge by 1px:</h5>
-					<p>Command + Arrow Keys</p>
+					<h5>Nudge</h5>
+					<p>Shift + Arrow Keys</p>
 
-					<h5>Nudge by 10px:</h5>
-					<p>Command + Shift + Arrow Keys</p>
+					<h5>Nudge More</h5>
+					<p>Shift + Command + Arrow Keys</p>
 				</div><!--key-->
 			</div><!--controls-->
 
